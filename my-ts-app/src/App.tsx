@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// App.tsx
+import React, { useState } from 'react';
+import { products } from './data';
+import ProductList from './components/ProductList';
+import ProductDetail from './components/ProductDetail';
 
-function App() {
+const App: React.FC = () => {
+  const [selectedProductId, setSelectedProductId] = useState<number | null>(
+    null
+  );
+
+  const handleProductClick = (productId: number) => {
+    setSelectedProductId(productId);
+  };
+
+  // Find the selected product
+  const selectedProduct = products.find(
+    (product) => product.id === selectedProductId
+  ) || null; // Provide a default value of null if product is not found
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <ProductList products={products} onItemClick={handleProductClick} />
+      <ProductDetail product={selectedProduct} />
     </div>
   );
-}
+};
 
 export default App;
